@@ -235,7 +235,9 @@
      Responses are cached for the browser session because the unauthenticated API
      allows only 60 requests per hour per visitor IP. Content is rendered with
      textContent to keep API data safe. */
-  const GH_CACHE_KEY = 'portfolio-gh-repos-v1';
+  const GH_CACHE_KEY = 'portfolio-gh-repos-v2';
+  // Repositories that should never appear in the GitHub section (case-insensitive).
+  const GH_HIDDEN_REPOS = ['portfolio'];
   const GH_CACHE_TTL = 30 * 60 * 1000;
 
   function readGitHubCache(user) {
@@ -302,7 +304,7 @@
         if (timer) clearTimeout(timer);
         if (!response.ok) throw new Error(`GitHub returned ${response.status}`);
         repositories = (await response.json())
-          .filter(repo => !repo.fork && !repo.archived)
+          .filter(repo => !repo.fork && !repo.archived && !GH_HIDDEN_REPOS.includes(String(repo.name).toLowerCase()))
           .sort((a, b) => (b.stargazers_count - a.stargazers_count) || (new Date(b.pushed_at) - new Date(a.pushed_at)))
           .slice(0, 4)
           .map(({ name, html_url, language, description, stargazers_count }) => ({ name, html_url, language, description, stargazers_count }));
