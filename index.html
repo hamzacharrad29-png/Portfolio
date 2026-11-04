@@ -648,11 +648,12 @@ The objective is to study historical stock price behavior, evaluate time-series 
           <div class="form-heading"><span>01 / MESSAGE</span><h3>Send me a note</h3><p>Fill in the form and I’ll get back to you.</p></div>
 
           <noscript><p class="noscript-note">The form needs JavaScript. You can email me directly at <a href="mailto:hamzacharrad29@gmail.com">hamzacharrad29@gmail.com</a>.</p></noscript>
-          <form id="contact-form" class="contact-form" action="https://formsubmit.co/hamzacharrad29@gmail.com" method="post" data-endpoint="https://formsubmit.co/ajax/hamzacharrad29@gmail.com" data-fallback-email="hamzacharrad29@gmail.com" novalidate>
-            <input type="hidden" name="_subject" value="New portfolio enquiry">
-            <input type="hidden" name="_template" value="table">
-            <input type="hidden" name="_captcha" value="false">
-            <div class="form-honeypot" aria-hidden="true"><label for="hp-trap">Do not fill this in</label><input type="text" name="_honey" id="hp-trap" value="" tabindex="-1" autocomplete="off" data-lpignore="true" data-1p-ignore data-form-type="other"></div>
+          <form id="contact-form" class="contact-form" action="https://api.web3forms.com/submit" method="post" data-endpoint="https://api.web3forms.com/submit" data-fallback-email="hamzacharrad29@gmail.com" novalidate>
+            <!-- Web3Forms access key (public by design; it only allows sending to the owner's inbox). -->
+            <input type="hidden" name="access_key" value="YOUR_WEB3FORMS_ACCESS_KEY">
+            <input type="hidden" name="subject" value="New portfolio enquiry">
+            <input type="hidden" name="from_name" value="Hamza Charrad — Portfolio">
+            <div class="form-honeypot" aria-hidden="true"><label for="hp-trap">Do not tick this box</label><input type="checkbox" name="botcheck" id="hp-trap" tabindex="-1"></div>
             <div class="form-field">
               <label for="id_name">Your name</label>
               <input type="text" name="name" class="form-control" placeholder="Your name" autocomplete="name" maxlength="100" required id="id_name" aria-describedby="error_name">
@@ -709,7 +710,7 @@ The objective is to study historical stock price behavior, evaluate time-series 
   </footer>
 
   <button id="to-top" class="to-top" type="button" aria-label="Back to top" title="Back to top">↑</button>
-  <script src="assets/js/main.js?v=2026-11-04b" defer></script>
+  <script src="assets/js/main.js?v=2026-11-04c" defer></script>
 
 </body>
 </html>

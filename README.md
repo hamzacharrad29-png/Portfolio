@@ -12,7 +12,7 @@ The design, content, and interactions are the same as the Django site. It doesn'
 - Live public GitHub repositories (falls back to featured repositories if the GitHub API is unavailable)
 - French and English CV: in-page PDF preview on desktop, opens in a new tab on phones, direct download everywhere
 - Credential preview dialog, career timeline, workflow panel
-- Working contact form (delivered by email through FormSubmit; see below)
+- Working contact form (delivered by email through Web3Forms; see below)
 - Self-hosted fonts (no Google Fonts request), favicon, 404 page, SEO meta tags
 
 ## Project structure
@@ -113,24 +113,19 @@ with a green check when it succeeds.
 
 The general format is `https://<github-username>.github.io/<repository-name>/` (all lowercase).
 
-## Contact form — important one-time step
+## Contact form — Web3Forms
 
-GitHub Pages only serves files; it can't run server code or store messages in a database. The Django
-form saved messages in Django Admin. This version sends each message **by email** through
-[FormSubmit](https://formsubmit.co), a free form-to-email service that needs no account.
+GitHub Pages only serves files; it can't run server code or store messages. The form sends each message
+**by email** through [Web3Forms](https://web3forms.com), a free form-to-email service built for static sites.
 
-1. After the site is live, open it and send yourself a test message through the form.
-2. FormSubmit emails **hamzacharrad29@gmail.com** an activation link. Click **Activate Form**.
-   Until you do this, messages are **not** delivered.
-3. From then on, every message arrives in your inbox. Reply directly to answer the sender.
+**One-time setup:**
+1. Go to <https://web3forms.com>, enter **hamzacharrad29@gmail.com** and click **Create Access Key**.
+2. Web3Forms emails you an **access key** (it looks like `a1b2c3d4-...`). Receiving that email also proves Web3Forms can reach your inbox.
+3. In `index.html`, replace `YOUR_WEB3FORMS_ACCESS_KEY` (inside `<form id="contact-form">`) with your key and commit.
 
-Optional: the activation email also gives you a random alias such as `a1b2c3d4…`. To keep your address out of the page source,
-replace `hamzacharrad29@gmail.com` with that alias in the two FormSubmit URLs in `index.html` (`action="…"` and
-`data-endpoint="…"` on the `<form id="contact-form">` element).
-
-If FormSubmit is ever unreachable, the form tells the visitor and offers a pre-filled email to you instead, so no
-message is silently lost. You can switch to another service, such as Formspree, Web3Forms or Getform, by changing the same two URLs.
-The script sends JSON and accepts any service that answers with a 2xx status.
+The access key is designed to be public. It can only send messages **to your** inbox. Until a key is added, the form
+tells visitors it isn't connected yet and offers a pre-filled email instead. The same fallback appears if Web3Forms is ever unreachable,
+so no message is silently lost. Spam protection uses Web3Forms' hidden `botcheck` field.
 
 ## Editing content
 
@@ -170,7 +165,7 @@ Every push to `main` redeploys the site automatically when GitHub Actions publis
 - Django templates (`base.html` + `index.html`) were rendered with the real database content and turned into one static `index.html`.
 - `{% static %}` and `/media/` URLs became relative `assets/...` paths.
 - `{% url 'index' %}` links became in-page anchors that work under any repository subpath.
-- The Django contact view (save to DB + SMTP) was replaced by FormSubmit email delivery with client-side validation.
+- The Django contact view (save to DB + SMTP) was replaced by Web3Forms email delivery with client-side validation.
 - The `{% now "Y" %}` copyright year is now kept current by JavaScript.
 
 **Bugs fixed**

@@ -323,7 +323,7 @@
 
   /* Contact form.
      GitHub Pages cannot run server code, so messages are delivered by email through
-     FormSubmit (https://formsubmit.co). Nothing is stored in a database. If the
+     Web3Forms (https://web3forms.com). Nothing is stored in a database. If the
      service cannot be reached, the visitor is offered a pre-filled email instead. */
   const contactForm = $('#contact-form');
   if (contactForm) {
@@ -402,14 +402,21 @@
         return;
       }
 
-      // Spam trap: real visitors never see this field. Bots that fill it get a
-      // fake success so they learn nothing; humans are never blocked silently.
-      const honeypot = contactForm.querySelector('[name="_honey"]');
-      // Browser autofill can fill hidden fields; never treat a real typist as a bot.
-      if (honeypot && honeypot.value && humanTyped) honeypot.value = '';
-      if (honeypot && honeypot.value) {
+      // Spam trap: real visitors never see this checkbox. Bots that tick it get a
+      // fake success so they learn nothing. Real keystrokes override it, so a
+      // person can never be blocked by a browser extension or autofill.
+      const honeypot = contactForm.querySelector('[name="botcheck"]');
+      if (honeypot && honeypot.checked && humanTyped) honeypot.checked = false;
+      if (honeypot && honeypot.checked) {
         contactForm.reset();
         showStatus('success', 'Thanks — your message has been sent. I’ll get back to you soon.');
+        return;
+      }
+
+      const accessKey = (contactForm.querySelector('[name="access_key"]') || {}).value || '';
+      if (!/^[0-9a-f-]{20,}$/i.test(accessKey)) {
+        console.warn('Contact form: add your Web3Forms access key in index.html.');
+        showStatus('error', 'The contact form isn’t connected yet.', { href: mailtoLink(), label: 'Send it by email instead ↗' });
         return;
       }
 
@@ -419,8 +426,17 @@
       }
 
       try {
-        const payload = Object.fromEntries(new FormData(contactForm).entries());
-        payload._replyto = payload.email;
+        // Web3Forms: "email" becomes the reply-to address in the notification.
+        const name = fields.name.value.trim();
+        const payload = {
+          access_key: accessKey,
+          subject: `New portfolio enquiry from ${name}`,
+          from_name: 'Hamza Charrad — Portfolio',
+          name,
+          email: fields.email.value.trim(),
+          message: fields.message.value.trim(),
+          botcheck: false
+        };
         // Never leave the visitor waiting: give up after 20 seconds.
         const controller = 'AbortController' in window ? new AbortController() : null;
         const timer = controller ? setTimeout(() => controller.abort(), 20000) : null;
