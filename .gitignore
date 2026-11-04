@@ -1,0 +1,15 @@
+# OS / editor files
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+*.swp
+
+# Never commit Python environments or Django leftovers
+env/
+.venv/
+__pycache__/
+*.pyc
+db.sqlite3
+.env

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Page not found — Hamza Charrad</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='18' fill='%23172332'/%3E%3Ctext x='32' y='42' text-anchor='middle' font-family='Arial,sans-serif' font-size='27' font-weight='700' fill='%23fff'%3EHC%3C/text%3E%3C/svg%3E">
+  <style>
+    /* Self-contained on purpose: this page can be served from any URL depth,
+       so it must not depend on relative asset paths. */
+    :root { color-scheme: light dark; --bg: #f7f8fa; --text: #17202b; --muted: #66717f; --accent: #585be8; --border: #dfe4eb; --surface: #fff; }
+    @media (prefers-color-scheme: dark) { :root { --bg: #111923; --text: #edf2f7; --muted: #a7b2bf; --accent: #9a9cff; --border: #2c3a4a; --surface: #192432; } }
+    * { box-sizing: border-box; }
+    body { min-height: 100vh; margin: 0; display: grid; place-items: center; padding: 32px 16px; background: var(--bg); color: var(--text); font-family: "DM Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height: 1.6; }
+    main { width: min(100%, 520px); padding: 40px 32px; border: 1px solid var(--border); border-radius: 24px; background: var(--surface); text-align: center; }
+    .mark { display: inline-grid; place-items: center; width: 48px; height: 48px; margin-bottom: 22px; border-radius: 14px; background: #172332; color: #fff; font: 700 1rem "Space Grotesk", "Segoe UI", sans-serif; }
+    .kicker { margin: 0 0 10px; color: var(--accent); font-size: .78rem; font-weight: 800; letter-spacing: .14em; }
+    h1 { margin: 0 0 12px; font: 700 clamp(2rem, 7vw, 2.8rem)/1.05 "Space Grotesk", "Segoe UI", sans-serif; letter-spacing: -.045em; }
+    h1 em { color: var(--accent); font-family: "Instrument Serif", Georgia, serif; font-weight: 400; }
+    p { margin: 0 0 26px; color: var(--muted); }
+    a.button { display: inline-flex; align-items: center; gap: 12px; min-height: 48px; padding: 12px 20px; border-radius: 999px; background: #585be8; color: #fff; font-weight: 700; text-decoration: none; }
+    a.button:hover { background: #4145c9; }
+    a.button:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+  </style>
+</head>
+<body>
+  <main>
+    <span class="mark" aria-hidden="true">HC</span>
+    <p class="kicker">404 / NOT FOUND</p>
+    <h1>This page took a <em>different path.</em></h1>
+    <p>The page you’re looking for doesn’t exist or has moved.</p>
+    <a id="home-link" class="button" href="/">Back to the portfolio <span aria-hidden="true">↗</span></a>
+  </main>
+  <script>
+    // On a project site (username.github.io/repository-name/) the portfolio lives
+    // under the first path segment; on a user site or custom domain it lives at "/".
+    (async () => {
+      const link = document.getElementById('home-link');
+      const segment = location.pathname.split('/').filter(Boolean)[0];
+      if (!segment || !location.hostname.endsWith('github.io')) return;
+      const candidate = `/${segment}/`;
+      try {
+        const response = await fetch(candidate, { method: 'HEAD' });
+        if (response.ok) link.href = candidate;
+      } catch (_) { /* keep "/" */ }
+    })();
+  </script>
+</body>
+</html>
