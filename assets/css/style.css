@@ -653,3 +653,8 @@ textarea.form-control { min-height: 126px; resize: vertical; }
 /* Message shown only when JavaScript is disabled */
 .noscript-note { margin: 0 0 18px; padding: 11px 13px; border: 1px solid #dce1e8; border-radius: 8px; background: #f9fafb; color: #394453; font-size: .75rem; }
 .noscript-note a { color: #4145c9; font-weight: 800; }
+
+/* Education entries in the career timeline */
+.career-timeline .experience-type.is-education { background: var(--accent-soft); color: var(--accent); }
+.experience-list-items { display: flex; flex-wrap: wrap; gap: 7px; padding: 0; margin: 2px 0 0; list-style: none; }
+.experience-list-items li { padding: 5px 9px; border-radius: 6px; background: var(--surface-soft); color: var(--text); font-size: .7rem; font-weight: 600; line-height: 1.5; }
