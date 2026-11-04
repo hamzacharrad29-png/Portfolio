@@ -375,6 +375,11 @@
       return errors;
     };
 
+    // Real keystrokes/pastes prove a human is typing (bots fill fields programmatically).
+    let humanTyped = false;
+    contactForm.addEventListener('keydown', event => { if (event.isTrusted) humanTyped = true; });
+    contactForm.addEventListener('paste', event => { if (event.isTrusted) humanTyped = true; });
+
     Object.values(fields).forEach(input => input && input.addEventListener('input', () => {
       if (input.getAttribute('aria-invalid') === 'true') validate();
     }));
@@ -397,8 +402,16 @@
         return;
       }
 
+      // Spam trap: real visitors never see this field. Bots that fill it get a
+      // fake success so they learn nothing; humans are never blocked silently.
       const honeypot = contactForm.querySelector('[name="_honey"]');
-      if (honeypot && honeypot.value) return; // Silently ignore bots.
+      // Browser autofill can fill hidden fields; never treat a real typist as a bot.
+      if (honeypot && honeypot.value && humanTyped) honeypot.value = '';
+      if (honeypot && honeypot.value) {
+        contactForm.reset();
+        showStatus('success', 'Thanks — your message has been sent. I’ll get back to you soon.');
+        return;
+      }
 
       if (submitButton) {
         submitButton.disabled = true;
@@ -408,11 +421,15 @@
       try {
         const payload = Object.fromEntries(new FormData(contactForm).entries());
         payload._replyto = payload.email;
+        // Never leave the visitor waiting: give up after 20 seconds.
+        const controller = 'AbortController' in window ? new AbortController() : null;
+        const timer = controller ? setTimeout(() => controller.abort(), 20000) : null;
         const response = await fetch(contactForm.dataset.endpoint, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-          body: JSON.stringify(payload)
-        });
+          body: JSON.stringify(payload),
+          signal: controller ? controller.signal : undefined
+        }).finally(() => { if (timer) clearTimeout(timer); });
         const result = await response.json().catch(() => ({}));
         const ok = response.ok && String(result.success) !== 'false';
         if (!ok) throw new Error(result.message || `Form service returned ${response.status}`);
