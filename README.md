@@ -140,7 +140,7 @@ All content now lives directly in `index.html`. Django Admin is no longer used. 
 | Skills | `<article class="skill-card">` blocks in `<section id="skills">` |
 | Experience | `<article class="experience-item">` blocks |
 | Credentials | `<article class="certification-card">` blocks |
-| Stats (3 projects / 16 skills / 1 internship) | `<section class="stats-section">`. Update these when you add projects or skills |
+| Stats (4 projects / 16 skills / 1 internship) | `<section class="stats-section">`. Update these when you add projects or skills |
 | Page title and description (SEO) | `<head>` |
 
 **Add a project:** copy an existing `<article class="project-card">…</article>` block. Then:
