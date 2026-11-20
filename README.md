@@ -140,12 +140,12 @@ All content now lives directly in `index.html`. Django Admin is no longer used. 
 | Skills | `<article class="skill-card">` blocks in `<section id="skills">` |
 | Experience | `<article class="experience-item">` blocks |
 | Credentials | `<article class="certification-card">` blocks |
-| Stats (4 projects / 16 skills / 1 internship) | `<section class="stats-section">`. Update these when you add projects or skills |
+| Stats (5 projects / 16 skills / 1 internship) | `<section class="stats-section">`. Update these when you add projects or skills |
 | Page title and description (SEO) | `<head>` |
 
 **Add a project:** copy an existing `<article class="project-card">…</article>` block. Then:
 
-- Update `data-category` (`bi`, `ml` or `dev`) and `data-search` (keywords).
+- Update `data-category` (`bi`, `ml`, `ai` or `dev`) and `data-search` (keywords).
 - Update the title, texts, technology tags and GitHub link.
 - Put the screenshot in `assets/images/projects/` and update both the `.webp` `<source>` and the `<img>` fallback, or use a single `<img>`.
 - Update the "All" counter in the filter button and the Projects stat.
