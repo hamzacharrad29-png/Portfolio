@@ -658,3 +658,12 @@ textarea.form-control { min-height: 126px; resize: vertical; }
 .career-timeline .experience-type.is-education { background: var(--accent-soft); color: var(--accent); }
 .experience-list-items { display: flex; flex-wrap: wrap; gap: 7px; padding: 0; margin: 2px 0 0; list-style: none; }
 .experience-list-items li { padding: 5px 9px; border-radius: 6px; background: var(--surface-soft); color: var(--text); font-size: .7rem; font-weight: 600; line-height: 1.5; }
+
+/* Final-year project (PFE) files inside the BH Bank timeline card */
+.pfe-files { display: grid; gap: 10px; margin-top: 18px; }
+.pfe-file { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px 18px; padding: 13px 15px; border: 1px solid var(--border); border-radius: 14px; background: var(--surface-soft); }
+.pfe-file-copy { display: grid; gap: 2px; }
+.pfe-file-copy strong { color: var(--text); font: 600 .92rem var(--font-display); }
+.pfe-file-type { color: var(--accent); font-size: .68rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+.pfe-file-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.pfe-file-actions .button { min-height: 38px; padding: 8px 15px; gap: 10px; font-size: .78rem; }
